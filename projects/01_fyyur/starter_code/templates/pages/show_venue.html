@@ -5,12 +5,13 @@
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ venue.name }}
+			<button data-id="{{ venue.id }}" id='delbtn' style="border: 2px solid tomato; float: right; color: white; background-color: tomato;">delete</button>
 		</h1>
 		<p class="subtitle">
 			ID: {{ venue.id }}
 		</p>
 		<div class="genres">
-			{% for genre in venue.genres %}
+			{% for genre in venue.genres.split(',') %}
 			<span class="genre">{{ genre }}</span>
 			{% endfor %}
 		</div>
@@ -75,5 +76,18 @@
 	</div>
 </section>
 
+<script>
+	//button function
+	delbtn = document.getElementById('delbtn')
+	delbtn.onclick = function(e) {
+		const venueid = e.target.dataset.id;
+		fetch('/venues/' + venueid, {
+			method: 'DELETE'
+		})
+		.then(() => {
+			window.location = "/";
+		})
+	}
+</script>
 {% endblock %}
 
